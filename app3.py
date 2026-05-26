@@ -16,44 +16,32 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Syne+Mono&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
 :root {
-    --bg:       #080c10;
-    --surface:  #0e1419;
-    --surface2: #141b23;
-    --border:   #1e2832;
-    --border2:  #263040;
-    --cyan:     #00d4ff;
-    --cyan-dim: #0099bb;
-    --green:    #00ff9d;
-    --green-dim:#00bb70;
-    --amber:    #ffb300;
-    --muted:    #4a6070;
-    --muted2:   #6a8090;
-    --text:     #d0dde8;
-    --text2:    #90aabb;
-    --danger:   #ff4060;
+    --bg:        #faf9f7;
+    --surface:   #ffffff;
+    --surface2:  #f5f2ee;
+    --border:    #e8e2d9;
+    --border2:   #d4ccc0;
+    --tan:       #c9a882;
+    --tan-light: #e8d9c5;
+    --tan-dim:   #a8845e;
+    --text:      #1a1714;
+    --text2:     #4a4440;
+    --muted:     #8a7e76;
+    --muted2:    #b0a89e;
+    --green:     #5a8a6a;
+    --red:       #c0504a;
+    --surface-hover: #f0ebe4;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body, [class*="css"] {
-    font-family: 'Lora', Georgia, serif;
-    background-color: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--bg) !important;
     color: var(--text);
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
 }
 
 [data-testid="stSidebar"] {
@@ -63,140 +51,80 @@ body::before {
 
 [data-testid="stSidebar"] > div { padding-top: 1.5rem; }
 
-.logo-wrap { padding: 0 0 1rem 0; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
-.logo-mark { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.6rem; letter-spacing: -0.03em; color: var(--text); line-height: 1; }
-.logo-mark span { color: var(--cyan); }
-.logo-sub { font-family: 'Syne Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+/* Logo */
+.logo-wrap { padding: 0 0 1.25rem 0; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+.logo-mark { font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.7rem; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
+.logo-mark span { color: var(--tan-dim); }
+.logo-sub { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
 
-.nav-label { font-family: 'Syne Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+.nav-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted2); margin-bottom: 0.5rem; }
 
+/* Page header */
 .page-header { padding: 2rem 0 1.5rem 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
-.page-eyebrow { font-family: 'Syne Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.5rem; }
-.page-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 2.2rem; letter-spacing: -0.04em; color: var(--text); line-height: 1.1; margin: 0; }
-.page-desc { font-family: 'Lora', serif; font-style: italic; font-size: 0.95rem; color: var(--muted2); margin-top: 0.5rem; }
+.page-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tan-dim); margin-bottom: 0.5rem; }
+.page-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 2.4rem; letter-spacing: -0.03em; color: var(--text); line-height: 1.1; margin: 0; }
+.page-desc { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 1rem; color: var(--muted); margin-top: 0.6rem; }
 
-.paper-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
-.paper-num { font-family: 'Syne Mono', monospace; font-size: 0.6rem; color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 0.25rem; }
-.paper-title { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 0.5rem; line-height: 1.3; }
-.paper-abstract { font-size: 0.8rem; color: var(--muted2); line-height: 1.6; margin-bottom: 0.75rem; }
-.paper-link { font-family: 'Syne Mono', monospace; font-size: 0.65rem; color: var(--cyan); text-decoration: none; letter-spacing: 0.05em; }
+/* Paper cards */
+.paper-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.3rem; margin-bottom: 0.75rem; transition: border-color 0.2s, background 0.2s; }
+.paper-card:hover { border-color: var(--tan-light); background: var(--surface-hover); }
+.paper-num { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--tan-dim); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+.paper-title { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem; color: var(--text); margin-bottom: 0.5rem; line-height: 1.4; }
+.paper-abstract { font-size: 0.85rem; color: var(--text2); line-height: 1.65; margin-bottom: 0.75rem; }
+.paper-link { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--tan-dim); text-decoration: none; letter-spacing: 0.05em; }
+.paper-link:hover { color: var(--tan); }
 
-.chat-wrap { margin: 0.5rem 0; }
-.bubble-meta { font-family: 'Syne Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; color: var(--muted); }
-.bubble-user-meta { text-align: right; color: var(--cyan-dim); }
-.bubble-user { background: linear-gradient(135deg, #0a1e30, #0d2540); border: 1px solid #1a3a5a; border-radius: 12px 12px 2px 12px; padding: 0.85rem 1.1rem; margin-left: auto; max-width: 78%; font-size: 0.92rem; line-height: 1.6; color: var(--text); }
-.bubble-ai { background: var(--surface); border: 1px solid var(--border); border-left: 2px solid var(--cyan-dim); border-radius: 2px 12px 12px 12px; padding: 0.85rem 1.1rem; max-width: 88%; font-size: 0.92rem; line-height: 1.7; color: var(--text); }
+/* Chat bubbles */
+.chat-wrap { margin: 0.75rem 0; }
+.bubble-meta { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--muted2); }
+.bubble-user-meta { text-align: right; color: var(--tan-dim); }
+.bubble-user { background: var(--tan-light); border: 1px solid var(--border2); border-radius: 16px 16px 4px 16px; padding: 0.9rem 1.15rem; margin-left: auto; max-width: 75%; font-size: 0.95rem; line-height: 1.65; color: var(--text); }
+.bubble-ai { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--tan-light); border-radius: 4px 16px 16px 16px; padding: 0.9rem 1.15rem; max-width: 88%; font-size: 0.95rem; line-height: 1.75; color: var(--text); }
 
-.score-bar { display: flex; align-items: center; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 1.25rem; margin-bottom: 1rem; }
-.score-label { font-family: 'Syne Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-.score-value { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--green); }
-.score-pct { font-family: 'Syne Mono', monospace; font-size: 0.75rem; color: var(--muted2); }
+/* Score bar */
+.score-bar { display: flex; align-items: center; gap: 1rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1.25rem; margin-bottom: 1rem; }
+.score-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.score-value { font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.2rem; color: var(--green); }
+.score-pct { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
 
-.topic-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 2rem; margin-bottom: 1rem; }
-.topic-card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--text); margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+/* Topic card */
+.topic-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; margin-bottom: 1rem; }
+.topic-card-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 1.2rem; color: var(--text); margin-bottom: 1.5rem; letter-spacing: -0.01em; }
 
-.stat-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 2px; padding: 0.25rem 0.75rem; font-family: 'Syne Mono', monospace; font-size: 0.65rem; color: var(--muted2); letter-spacing: 0.05em; }
+/* Stat pill */
+.stat-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 0.3rem 0.85rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); letter-spacing: 0.04em; }
 .stat-pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
-
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-.stButton > button { background: transparent !important; color: var(--cyan) !important; border: 1px solid var(--cyan-dim) !important; border-radius: 2px !important; font-family: 'Syne', sans-serif !important; font-weight: 600 !important; font-size: 0.8rem !important; letter-spacing: 0.05em !important; padding: 0.45rem 1.25rem !important; transition: all 0.15s !important; }
-.stButton > button:hover { background: var(--cyan) !important; color: #000 !important; }
+/* Streamlit overrides */
+.stButton > button { background: var(--tan) !important; color: #fff !important; border: none !important; border-radius: 6px !important; font-family: 'DM Sans', sans-serif !important; font-weight: 500 !important; font-size: 0.88rem !important; padding: 0.5rem 1.4rem !important; transition: all 0.15s !important; }
+.stButton > button:hover { background: var(--tan-dim) !important; }
 
-.stTextInput > div > div > input, .stTextArea > div > div > textarea { background: var(--surface) !important; border: 1px solid var(--border2) !important; border-radius: 2px !important; color: var(--text) !important; font-family: 'Lora', serif !important; font-size: 0.9rem !important; padding: 0.6rem 0.9rem !important; }
-.stTextInput > div > div > input:focus, .stTextArea > div > div > textarea:focus { border-color: var(--cyan-dim) !important; box-shadow: 0 0 0 1px var(--cyan-dim) !important; }
+.stTextInput > div > div > input,
+.stTextArea > div > div > textarea { background: var(--surface) !important; border: 1px solid var(--border2) !important; border-radius: 6px !important; color: var(--text) !important; font-family: 'DM Sans', sans-serif !important; font-size: 0.95rem !important; padding: 0.65rem 1rem !important; }
+.stTextInput > div > div > input:focus,
+.stTextArea > div > div > textarea:focus { border-color: var(--tan) !important; box-shadow: 0 0 0 2px var(--tan-light) !important; }
 
-.stSelectbox > div > div { background: var(--surface) !important; border: 1px solid var(--border2) !important; border-radius: 2px !important; color: var(--text) !important; }
+.stSelectbox > div > div { background: var(--surface) !important; border: 1px solid var(--border2) !important; border-radius: 6px !important; color: var(--text) !important; font-size: 0.95rem !important; }
 
-.stRadio > div { gap: 0.5rem !important; }
-.stRadio > div > label { background: var(--surface2) !important; border: 1px solid var(--border) !important; border-radius: 2px !important; padding: 0.5rem 1rem !important; cursor: pointer !important; transition: all 0.15s !important; font-family: 'Syne', sans-serif !important; font-size: 0.82rem !important; color: var(--text2) !important; }
-.stRadio > div > label:hover { border-color: var(--cyan-dim) !important; color: var(--text) !important; }
+.stRadio > div { gap: 0.4rem !important; }
+.stRadio > div > label { background: var(--surface) !important; border: 1px solid var(--border) !important; border-radius: 6px !important; padding: 0.55rem 1rem !important; cursor: pointer !important; transition: all 0.15s !important; font-family: 'DM Sans', sans-serif !important; font-size: 0.88rem !important; color: var(--text2) !important; }
+.stRadio > div > label:hover { border-color: var(--tan) !important; color: var(--text) !important; }
 
-[data-testid="stExpander"] { background: var(--surface) !important; border: 1px solid var(--border) !important; border-radius: 4px !important; }
+[data-testid="stExpander"] { background: var(--surface) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; }
 
 hr { border-color: var(--border) !important; margin: 1.5rem 0 !important; }
 #MainMenu, footer { visibility: hidden; }
 header { visibility: visible; }
-::-webkit-scrollbar { width: 4px; }
+
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-label { color: var(--muted2) !important; font-family: 'Syne Mono', monospace !important; font-size: 0.7rem !important; letter-spacing: 0.1em !important; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+label { color: var(--muted) !important; font-family: 'DM Mono', monospace !important; font-size: 0.7rem !important; letter-spacing: 0.08em !important; }
+p, li, div { font-size: 0.95rem !important; }
 </style>
 """, unsafe_allow_html=True)
-
-def get_client():
-    api_key = st.session_state.get("api_key") or os.getenv("GROQ_API_KEY", "")
-    if api_key:
-        return Groq(api_key=api_key)
-    return None
-
-def chat(messages: list[dict], system: str):
-    client = get_client()
-    if not client:
-        st.error("No API key found. Add it in the sidebar.")
-        return ""
-    try:
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "system", "content": system}] + messages,
-            temperature=0.65,
-            max_tokens=2048,
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        st.error(f"API error: {e}")
-        return ""
-
-def search_pubmed(query: str, max_results: int = 5) -> list[dict]:
-    base = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
-    try:
-        ids = requests.get(
-            f"{base}esearch.fcgi?db=pubmed&term={requests.utils.quote(query)}&retmax={max_results}&retmode=json&sort=relevance",
-            timeout=8
-        ).json()["esearchresult"]["idlist"]
-        if not ids:
-            return []
-        summary = requests.get(
-            f"{base}esummary.fcgi?db=pubmed&id={','.join(ids)}&retmode=json",
-            timeout=10
-        ).json().get("result", {})
-        articles = []
-        for uid in ids:
-            p = summary.get(uid, {})
-            title = p.get("title", "No title")
-            year  = p.get("pubdate", "n.d.")[:4]
-            abs_r = requests.get(
-                f"{base}efetch.fcgi?db=pubmed&id={uid}&rettype=abstract&retmode=text",
-                timeout=8
-            ).text.strip()
-            abstract = abs_r[:1500] if abs_r else "No abstract available."
-            articles.append({"pmid": uid, "title": title, "abstract": abstract, "year": year})
-        return articles
-    except Exception as e:
-        st.warning(f"PubMed error: {e}")
-        return []
-
-defaults = {
-    "mode": "Research Companion",
-    "research_messages": [],
-    "tutor_messages": [],
-    "tutor_topic": "",
-    "tutor_phase": "idle",
-    "quiz_score": [0, 0],
-    "pubmed_results": [],
-    "api_key": os.getenv("GROQ_API_KEY", ""),
-}
-for k, v in defaults.items():
-    if k not in st.session_state:
-        st.session_state[k] = v
-
-with st.sidebar:
-    st.markdown("""
-    <div class="logo-wrap">
-        <div class="logo-mark">Med<span>Mind</span></div>
-        <div class="logo-sub">AI Medical Intelligence</div>
-    </div>
-    """, unsafe_allow_html=True)
 
     api_input = st.text_input("GROQ API KEY", type="password", placeholder="gsk_...", value=st.session_state["api_key"])
     if api_input:
