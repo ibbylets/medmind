@@ -156,7 +156,8 @@ for key, default in {
 
 # ── Helper functions ────────────────────────────────────────────
 def chat(messages, system):
-    client = Groq(api_key=st.session_state["api_key"])
+    key = st.session_state["api_key"] or os.environ.get("GROQ_API_KEY", "")
+    client = Groq(api_key=key)
     response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[{"role": "system", "content": system}] + messages,
