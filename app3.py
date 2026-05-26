@@ -12,6 +12,7 @@ st.set_page_config(
     page_icon="🧬",
     layout="wide",
     initial_sidebar_state="expanded",
+    theme={"base": "light"}
 )
 
 st.markdown("""
@@ -38,10 +39,11 @@ st.markdown("""
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html, body, [class*="css"] {
-    font-family: 'DM Sans', sans-serif;
+html, body, [class*="css"],
+.stApp, .main, .block-container {
+    font-family: 'DM Sans', sans-serif !important;
     background-color: var(--bg) !important;
-    color: var(--text);
+    color: var(--text) !important;
 }
 
 [data-testid="stSidebar"] {
@@ -99,9 +101,30 @@ html, body, [class*="css"] {
 
 .stSelectbox > div > div { background: var(--surface) !important; border: 1px solid var(--border2) !important; border-radius: 6px !important; color: var(--text) !important; font-size: 0.95rem !important; }
 
+/* Radio buttons — full label visible */
 .stRadio > div { gap: 0.4rem !important; }
-.stRadio > div > label { background: var(--surface) !important; border: 1px solid var(--border) !important; border-radius: 6px !important; padding: 0.55rem 1rem !important; cursor: pointer !important; transition: all 0.15s !important; font-family: 'DM Sans', sans-serif !important; font-size: 0.88rem !important; color: var(--text2) !important; }
+.stRadio > div > label {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 6px !important;
+    padding: 0.55rem 1rem !important;
+    cursor: pointer !important;
+    transition: all 0.15s !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.88rem !important;
+    color: var(--text2) !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+}
 .stRadio > div > label:hover { border-color: var(--tan) !important; color: var(--text) !important; }
+.stRadio > div > label > div { display: flex !important; align-items: center !important; gap: 0.5rem !important; }
+/* Show the radio label text */
+.stRadio [data-testid="stMarkdownContainer"] p { 
+    font-size: 0.88rem !important; 
+    color: var(--text2) !important;
+    display: inline !important;
+}
 
 [data-testid="stExpander"] { background: var(--surface) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; }
 
@@ -173,7 +196,12 @@ with st.sidebar:
 
     st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
     st.markdown('<div class="nav-label">Navigation</div>', unsafe_allow_html=True)
-    mode = st.radio("nav", ["🔬 Research Companion", "🎓 Medical Tutor"], label_visibility="collapsed")
+    mode = st.radio(
+        "nav",
+        ["🔬 Research Companion", "🎓 Medical Tutor"],
+        label_visibility="collapsed",
+        format_func=lambda x: x
+    )
     st.session_state["mode"] = mode
 
     st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
@@ -319,7 +347,7 @@ Wait for the answer. Then give ✅ or ❌, correct answer, and clear explanation
         with col1:
             icon = "📖" if phase == "teaching" else "📝"
             mode_label = "Teaching Session" if phase == "teaching" else "Quiz Mode"
-            st.markdown(f'<div style="font-family:Syne,sans-serif;font-weight:700;font-size:1.1rem;color:var(--text);">{icon} {topic} <span style="font-weight:400;color:var(--muted2);font-size:0.85rem;">— {mode_label}</span></div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="font-family:DM Sans,sans-serif;font-weight:700;font-size:1.1rem;color:var(--text);">{icon} {topic} <span style="font-weight:400;color:var(--muted2);font-size:0.85rem;">— {mode_label}</span></div>', unsafe_allow_html=True)
         with col2:
             if st.button("← Back"):
                 st.session_state["tutor_phase"] = "idle"
