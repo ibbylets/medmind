@@ -126,39 +126,34 @@ p, li, div { font-size: 0.95rem !important; }
 </style>
 """, unsafe_allow_html=True)
 
-    api_input = st.text_input("GROQ API KEY", type="password", placeholder="gsk_...", value=st.session_state["api_key"])
+# ...all the CSS...
+""", unsafe_allow_html=True)   # ← line ends here
+
+# ── ADD THIS BLOCK RIGHT AFTER ──────────────────
+for key, default in {
+    "api_key": "",
+    "mode": "🔬 Research Companion",
+    "research_messages": [],
+    "tutor_messages": [],
+    "pubmed_results": [],
+    "tutor_topic": "",
+    "tutor_phase": "idle",
+    "quiz_score": [0, 0],
+}.items():
+    if key not in st.session_state:
+        st.session_state[key] = default
+
+with st.sidebar:
+    st.markdown('<div class="logo-wrap">...</div>', unsafe_allow_html=True)
+
+    api_input = st.text_input(...)   # ← your existing code continues here, indented
     if api_input:
-        st.session_state["api_key"] = api_input
-
-    st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
-    st.markdown('<div class="nav-label">Navigation</div>', unsafe_allow_html=True)
-    mode = st.radio("nav", ["🔬 Research Companion", "🎓 Medical Tutor"], label_visibility="collapsed")
-    st.session_state["mode"] = mode
-
-    st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
-    st.markdown("""
-    <div class="stat-pill">
-        <div class="stat-pill-dot"></div>
-        llama-3.3-70b · groq
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
+    ...
     if st.button("Clear Session"):
-        for k in ["research_messages","tutor_messages","pubmed_results"]:
-            st.session_state[k] = []
-        st.session_state["tutor_topic"] = ""
-        st.session_state["tutor_phase"] = "idle"
-        st.session_state["quiz_score"] = [0, 0]
-        st.rerun()
+    ...                              # ← last line of sidebar block
+# ── SIDEBAR ENDS HERE (de-indent) ───────────────
 
-if "Research" in st.session_state["mode"]:
-    st.markdown("""
-    <div class="page-header">
-        <div class="page-eyebrow">Mode 01 — PubMed + AI Analysis</div>
-        <div class="page-title">Research Companion</div>
-        <div class="page-desc">Search real papers, get AI synthesis, ask follow-up questions grounded in evidence.</div>
-    </div>
+if "Research" in st.session_state["mode"]:   # ← this was already in your file    </div>
     """, unsafe_allow_html=True)
 
     col1, col2 = st.columns([4, 1])
