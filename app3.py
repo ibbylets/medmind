@@ -51,7 +51,6 @@ html, body, [class*="css"] {
 
 [data-testid="stSidebar"] > div { padding-top: 1.5rem; }
 
-/* Logo */
 .logo-wrap { padding: 0 0 1.25rem 0; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
 .logo-mark { font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.7rem; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
 .logo-mark span { color: var(--tan-dim); }
@@ -59,13 +58,11 @@ html, body, [class*="css"] {
 
 .nav-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted2); margin-bottom: 0.5rem; }
 
-/* Page header */
 .page-header { padding: 2rem 0 1.5rem 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
 .page-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tan-dim); margin-bottom: 0.5rem; }
 .page-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 2.4rem; letter-spacing: -0.03em; color: var(--text); line-height: 1.1; margin: 0; }
 .page-desc { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 1rem; color: var(--muted); margin-top: 0.6rem; }
 
-/* Paper cards */
 .paper-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.3rem; margin-bottom: 0.75rem; transition: border-color 0.2s, background 0.2s; }
 .paper-card:hover { border-color: var(--tan-light); background: var(--surface-hover); }
 .paper-num { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--tan-dim); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
@@ -74,29 +71,24 @@ html, body, [class*="css"] {
 .paper-link { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--tan-dim); text-decoration: none; letter-spacing: 0.05em; }
 .paper-link:hover { color: var(--tan); }
 
-/* Chat bubbles */
 .chat-wrap { margin: 0.75rem 0; }
 .bubble-meta { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--muted2); }
 .bubble-user-meta { text-align: right; color: var(--tan-dim); }
 .bubble-user { background: var(--tan-light); border: 1px solid var(--border2); border-radius: 16px 16px 4px 16px; padding: 0.9rem 1.15rem; margin-left: auto; max-width: 75%; font-size: 0.95rem; line-height: 1.65; color: var(--text); }
 .bubble-ai { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--tan-light); border-radius: 4px 16px 16px 16px; padding: 0.9rem 1.15rem; max-width: 88%; font-size: 0.95rem; line-height: 1.75; color: var(--text); }
 
-/* Score bar */
 .score-bar { display: flex; align-items: center; gap: 1rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1.25rem; margin-bottom: 1rem; }
 .score-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .score-value { font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.2rem; color: var(--green); }
 .score-pct { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
 
-/* Topic card */
 .topic-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; margin-bottom: 1rem; }
 .topic-card-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 1.2rem; color: var(--text); margin-bottom: 1.5rem; letter-spacing: -0.01em; }
 
-/* Stat pill */
 .stat-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 0.3rem 0.85rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--muted); letter-spacing: 0.04em; }
 .stat-pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-/* Streamlit overrides */
 .stButton > button { background: var(--tan) !important; color: #fff !important; border: none !important; border-radius: 6px !important; font-family: 'DM Sans', sans-serif !important; font-weight: 500 !important; font-size: 0.88rem !important; padding: 0.5rem 1.4rem !important; transition: all 0.15s !important; }
 .stButton > button:hover { background: var(--tan-dim) !important; }
 
@@ -126,10 +118,7 @@ p, li, div { font-size: 0.95rem !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ...all the CSS...
-""", unsafe_allow_html=True)   # ← line ends here
-
-# ── ADD THIS BLOCK RIGHT AFTER ──────────────────
+# ── Session state defaults ──────────────────────────────────────
 for key, default in {
     "api_key": "",
     "mode": "🔬 Research Companion",
@@ -143,17 +132,75 @@ for key, default in {
     if key not in st.session_state:
         st.session_state[key] = default
 
+# ── Helper functions ────────────────────────────────────────────
+def chat(messages, system):
+    client = Groq(api_key=st.session_state["api_key"])
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[{"role": "system", "content": system}] + messages,
+        max_tokens=2048,
+    )
+    return response.choices[0].message.content
+
+def search_pubmed(query, n=5):
+    base = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
+    search = requests.get(f"{base}esearch.fcgi", params={"db":"pubmed","term":query,"retmax":n,"retmode":"json"}).json()
+    ids = search["esearchresult"]["idlist"]
+    if not ids:
+        return []
+    fetch = requests.get(f"{base}efetch.fcgi", params={"db":"pubmed","id":",".join(ids),"retmode":"xml","rettype":"abstract"})
+    results = []
+    import xml.etree.ElementTree as ET
+    root = ET.fromstring(fetch.text)
+    for article in root.findall(".//PubmedArticle"):
+        try:
+            pmid = article.findtext(".//PMID", "")
+            title = article.findtext(".//ArticleTitle", "No title")
+            abstract = article.findtext(".//AbstractText", "No abstract available.")
+            year = article.findtext(".//PubDate/Year", "n.d.")
+            results.append({"pmid": pmid, "title": title, "abstract": abstract, "year": year})
+        except Exception:
+            continue
+    return results
+
+# ── Sidebar ─────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown('<div class="logo-wrap">...</div>', unsafe_allow_html=True)
+    st.markdown('<div class="logo-wrap"><div class="logo-mark">Med<span>Mind</span></div><div class="logo-sub">Clinical Intelligence</div></div>', unsafe_allow_html=True)
 
-    api_input = st.text_input(...)   # ← your existing code continues here, indented
+    api_input = st.text_input("GROQ API KEY", type="password", placeholder="gsk_...", value=st.session_state["api_key"])
     if api_input:
-    ...
-    if st.button("Clear Session"):
-    ...                              # ← last line of sidebar block
-# ── SIDEBAR ENDS HERE (de-indent) ───────────────
+        st.session_state["api_key"] = api_input
 
-if "Research" in st.session_state["mode"]:   # ← this was already in your file    </div>
+    st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
+    st.markdown('<div class="nav-label">Navigation</div>', unsafe_allow_html=True)
+    mode = st.radio("nav", ["🔬 Research Companion", "🎓 Medical Tutor"], label_visibility="collapsed")
+    st.session_state["mode"] = mode
+
+    st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="stat-pill">
+        <div class="stat-pill-dot"></div>
+        llama-3.3-70b · groq
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
+    if st.button("Clear Session"):
+        for k in ["research_messages", "tutor_messages", "pubmed_results"]:
+            st.session_state[k] = []
+        st.session_state["tutor_topic"] = ""
+        st.session_state["tutor_phase"] = "idle"
+        st.session_state["quiz_score"] = [0, 0]
+        st.rerun()
+
+# ── Main content ────────────────────────────────────────────────
+if "Research" in st.session_state["mode"]:
+    st.markdown("""
+    <div class="page-header">
+        <div class="page-eyebrow">Mode 01 — PubMed + AI Analysis</div>
+        <div class="page-title">Research Companion</div>
+        <div class="page-desc">Search real papers, get AI synthesis, ask follow-up questions grounded in evidence.</div>
+    </div>
     """, unsafe_allow_html=True)
 
     col1, col2 = st.columns([4, 1])
@@ -177,10 +224,10 @@ if "Research" in st.session_state["mode"]:   # ← this was already in your file
 4. Propose 3 specific follow-up research questions
 Be precise and evidence-based. Use markdown formatting."""
                 with st.spinner("Analyzing papers with AI..."):
-                    response = chat([{"role":"user","content":f"Analyze these papers on: {query}\n\n{abstracts}"}], system)
+                    response = chat([{"role": "user", "content": f"Analyze these papers on: {query}\n\n{abstracts}"}], system)
                 st.session_state["research_messages"] = [
-                    {"role":"user","content":f"Search: {query}"},
-                    {"role":"assistant","content":response},
+                    {"role": "user", "content": f"Search: {query}"},
+                    {"role": "assistant", "content": response},
                 ]
                 st.rerun()
         else:
@@ -212,11 +259,11 @@ Be precise and evidence-based. Use markdown formatting."""
             if followup:
                 abstracts = "\n\n".join([f"[{i+1}] {r['title']} ({r['year']})\n{r['abstract']}" for i, r in enumerate(st.session_state["pubmed_results"])])
                 system = f"You are a medical research expert. Context papers:\n\n{abstracts}\n\nAnswer precisely, cite [1][2] etc."
-                st.session_state["research_messages"].append({"role":"user","content":followup})
-                history = [{"role":m["role"],"content":m["content"]} for m in st.session_state["research_messages"]]
+                st.session_state["research_messages"].append({"role": "user", "content": followup})
+                history = [{"role": m["role"], "content": m["content"]} for m in st.session_state["research_messages"]]
                 with st.spinner("Thinking..."):
                     response = chat(history, system)
-                st.session_state["research_messages"].append({"role":"assistant","content":response})
+                st.session_state["research_messages"].append({"role": "assistant", "content": response})
                 st.rerun()
 
 elif "Tutor" in st.session_state["mode"]:
@@ -244,8 +291,8 @@ Topic: {topic}. Level: {level}.
 Start with a 2-sentence engaging overview, then ask ONE probing question to gauge baseline knowledge.
 Teach one concept at a time. Use clinical vignettes. Bold key terms. Never overwhelm."""
                     with st.spinner("Starting session..."):
-                        init = chat([{"role":"user","content":f"Teach me about {topic}"}], system)
-                    st.session_state["tutor_messages"] = [{"role":"assistant","content":init,"system":system}]
+                        init = chat([{"role": "user", "content": f"Teach me about {topic}"}], system)
+                    st.session_state["tutor_messages"] = [{"role": "assistant", "content": init, "system": system}]
                     st.rerun()
         with col2:
             if st.button("📝 Start Quiz"):
@@ -260,15 +307,15 @@ Format EXACTLY:
 **A)** ... **B)** ... **C)** ... **D)** ... **E)** ...
 Wait for the answer. Then give ✅ or ❌, correct answer, and clear explanation. Then next question."""
                     with st.spinner("Generating first question..."):
-                        init = chat([{"role":"user","content":f"Quiz me on {topic}"}], system)
-                    st.session_state["tutor_messages"] = [{"role":"assistant","content":init,"system":system}]
+                        init = chat([{"role": "user", "content": f"Quiz me on {topic}"}], system)
+                    st.session_state["tutor_messages"] = [{"role": "assistant", "content": init, "system": system}]
                     st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
     else:
         topic = st.session_state["tutor_topic"]
         phase = st.session_state["tutor_phase"]
-        col1, col2 = st.columns([5,1])
+        col1, col2 = st.columns([5, 1])
         with col1:
             icon = "📖" if phase == "teaching" else "📝"
             mode_label = "Teaching Session" if phase == "teaching" else "Quiz Mode"
@@ -281,7 +328,7 @@ Wait for the answer. Then give ✅ or ❌, correct answer, and clear explanation
 
         if phase == "quizzing":
             correct, total = st.session_state["quiz_score"]
-            pct = int(correct/total*100) if total > 0 else 0
+            pct = int(correct / total * 100) if total > 0 else 0
             st.markdown(f'<div class="score-bar"><div class="score-label">Score</div><div class="score-value">{correct}/{total}</div><div class="score-pct">{pct}% correct</div></div>', unsafe_allow_html=True)
 
         now = datetime.now().strftime("%H:%M")
@@ -297,14 +344,14 @@ Wait for the answer. Then give ✅ or ❌, correct answer, and clear explanation
             if user_input:
                 if phase == "quizzing":
                     sc = st.session_state["quiz_score"]
-                    st.session_state["quiz_score"] = [sc[0], sc[1]+1]
-                st.session_state["tutor_messages"].append({"role":"user","content":user_input})
-                system = st.session_state["tutor_messages"][0].get("system","You are a medical tutor.")
-                history = [{"role":m["role"],"content":m["content"]} for m in st.session_state["tutor_messages"]]
+                    st.session_state["quiz_score"] = [sc[0], sc[1] + 1]
+                st.session_state["tutor_messages"].append({"role": "user", "content": user_input})
+                system = st.session_state["tutor_messages"][0].get("system", "You are a medical tutor.")
+                history = [{"role": m["role"], "content": m["content"]} for m in st.session_state["tutor_messages"]]
                 with st.spinner("..."):
                     response = chat(history, system)
                 if phase == "quizzing" and ("✅" in response or "correct" in response.lower()):
                     sc = st.session_state["quiz_score"]
-                    st.session_state["quiz_score"] = [sc[0]+1, sc[1]]
-                st.session_state["tutor_messages"].append({"role":"assistant","content":response})
+                    st.session_state["quiz_score"] = [sc[0] + 1, sc[1]]
+                st.session_state["tutor_messages"].append({"role": "assistant", "content": response})
                 st.rerun()
